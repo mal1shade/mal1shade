@@ -59,6 +59,7 @@
   nav a:hover {
     color: #ffd166;
   }
+  
   main {
     max-width: 900px;
     margin: 4rem auto 0;
@@ -291,6 +292,44 @@
   <section id="contact" style="text-align:center; margin-top:4rem; font-weight:300; color:#ddd; user-select:none;">
     <p>📧 Email: <a href="mailto:akmal.maula@outlook.co.id" style="color:#ffd166; text-decoration:none;">akmal.maula@outlook.co.id</a></p>
   </section>
+  <!-- Custom Modal -->
+<div id="customModal" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* semi-transparent overlay */
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+" role="dialog" aria-modal="true">
+  <div style="
+    background: white;
+    color: #222;
+    padding: 2rem;
+    max-width: 300px;
+    width: 80%;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  ">
+    <p style="font-size: 1.1rem;">Makasih yaa uda kesinii😁😊</p>
+    <button onclick="closeModal()" style="
+      margin-top: 1.5rem;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      background: #ffd166;
+      color: #222;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+    ">Tutup</button>
+  </div>
+</div>
+
 </main>
 <footer>
   &copy; 2025 Akmal Maula Aditya. All rights reserved.
@@ -359,9 +398,18 @@
 
   const sayHiBtn = document.getElementById('sayHiBtn');
   sayHiBtn.addEventListener('click', () => {
-    launchEmojis();
-    alert('Makasih yaa uda kesinii😁😊');
-  });
+  launchEmojis();
+  openModal();
+});
+function openModal() {
+  const modal = document.getElementById('customModal');
+  modal.style.display = 'flex'; // HARUS flex agar center
+}
+
+function closeModal() {
+  document.getElementById('customModal').style.display = 'none';
+}
+
 </script>
 </body>
 </html>
