@@ -1,0 +1,647 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #space-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+  .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            animation-delay: var(--delay);
+        }
+     
+  @keyframes twinkle {
+            0%, 100% { opacity: 0.1; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+  .comet {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(to right, rgba(255,255,255,0.8), rgba(255,255,255,0));
+            border-radius: 50%;
+            transform: rotate(var(--angle)) translateX(0px);
+            animation: shoot var(--speed) linear infinite;
+            animation-delay: var(--delay);
+            opacity: 0;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+        }
+
+  @keyframes shoot {
+            0% {
+                transform: rotate(var(--angle)) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(var(--angle)) translateX(var(--distance));
+                opacity: 0;
+            }
+        }
+        
+  #content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(0, 0, 255, 0.7);
+        }
+        
+        
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  header.scrolled {
+    background: rgba(0,0,0,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .logo {
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: #fefefe;
+    user-select: none;
+  }
+  nav {
+    display: flex;
+    gap: 2rem;
+  }
+  nav a {
+    color: #eee;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  nav a:hover {
+    color: #ffd166;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 4rem auto 0;
+    padding: 0 2rem;
+  }
+  .hero {
+    text-align: center;
+    margin-bottom: 5rem;
+    padding-top: 95px;
+  }
+  .hero h1 {
+    font-weight: 700;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    user-select: none;
+    background: linear-gradient(to right, #a8c0ff, #3f2b96);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-weight: 300;
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    color: #dcdcdc;
+    user-select: none;
+  }
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #ffd166;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  }
+  .btn-primary {
+    background: #ffd166;
+    color: #222;
+    border: none;
+    border-radius: 30px;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 209, 102, 0.6);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    user-select: none;
+  }
+  .btn-primary:hover {
+    background-color: #ffcb3b;
+    transform: scale(1.05);
+  }
+  .social-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .social-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 280px;
+    flex: 1 1 280px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, border-color 0.25s ease;
+    cursor: pointer;
+    outline-offset: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    min-height: 300px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .social-card.visible {
+    opacity: 1; /* Tampilkan elemen */
+    transform: translateY(0); /* Kembalikan ke posisi semula */
+}
+
+  .social-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+  }
+  .social-card:focus-visible, .social-card.pressed {
+    border: 3px solid #ffd166;
+    outline: none;
+  }
+  .social-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #ffd166;
+  }
+  .social-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #ddd;
+    text-align: center;
+  }
+  .social-desc {
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #ddd;
+    text-align: center;
+  }
+  footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 5rem;
+    font-weight: 300;
+    color: #bbb;
+    user-select: none;
+  }
+
+  /* Modal Animasi */
+  #customModal.show {
+    animation: fadeScaleIn 0.3s ease forwards;
+  }
+  @keyframes fadeScaleIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Emoji animation containers */
+  .emoji-container {
+    position: fixed;
+    bottom: 0;
+    width: 150px;
+    height: 200px;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 10001;
+  }
+  .emoji-container.left {
+    left: 20px;
+  }
+  .emoji-container.right {
+    right: 20px;
+  }
+
+  .emoji {
+    position: absolute;
+    bottom: 0;
+    font-size: 2.5rem;
+    user-select: none;
+    animation: floatUpFade 2.5s forwards;
+    opacity: 0;
+  }
+  @keyframes floatUpFade {
+    0% { opacity: 0; transform: translateY(0) scale(0.8); }
+    10% { opacity: 1; transform: translateY(-30px) scale(1); }
+    100% { opacity: 0; transform: translateY(-150px) scale(1.2); }
+  }
+
+  @media (max-width: 720px) {
+    body {
+      overflow-x: hidden;
+    }
+    header {
+      padding: 1rem 1.2rem;
+      top: 10px;
+      border-radius: 20px;
+      margin: 0 auto;
+      width: calc(100% - 2rem);
+    }
+    .logo {
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+    nav {
+      gap: 1rem;
+    }
+    nav a {
+      font-size: 0.85rem;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      word-break: break-word;
+      text-align: center;
+    }
+    .hero p {
+      font-size: 1rem;
+    }
+    .btn-primary {
+      font-size: 1rem;
+      padding: 0.7rem 2rem;
+    }
+    .social-links {
+      flex-direction: column;
+      align-items: center;
+    }
+    .photo-gallery {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 1rem;
+      scroll-behavior: smooth;
+    }
+    .photo-gallery::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
+    .photo-item {
+      flex: 0 0 auto;
+      border-radius: 15px;
+      overflow: hidden;
+      min-width: 200px; /* biar bisa digeser horizontal */
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+.photo-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.photo-item:hover {
+  transform: scale(1.05);
+}
+
+  }
+</style>
+</head>
+<body>
+    <div id="space-container"></div>
+<header>
+  <div class="logo">My Portfolio</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#social">Social</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+<main>
+    
+  <section class="hero" id="about">
+    <img src="adit2.jpg" alt="Foto profil Akmal Maula Aditya" class="profile-pic">
+    <p style="margin-bottom: 50px;"></p>
+    <h1>Hello, I'm Mali</h1>
+    <p>Focused Web Developer with a strong commitment to code quality and continuous growth.</p>
+    <button class="btn-primary" id="sayHiBtn">Say Hi!</button>
+    <p style="margin-bottom: 220px;"></p>
+  </section>
+  <section class="social-links" id="social" aria-label="Social media links">
+    <div class="social-card" tabindex="0" role="link" aria-label="Instagram profile" data-url="https://www.instagram.com/mal1shade?igsh=Y2k3bWtnYW5hcTAxe">
+      <div class="social-icon">📸</div>
+      <div class="social-title">Instagram</div>
+      <div class="social-desc">Follow me on Instagram for photos and stories.</div>
+    </div>
+    <div class="social-card" tabindex="0" role="link" aria-label="GitHub profile" data-url="https://github.com/mal1shade">
+      <div class="social-icon">💻</div>
+      <div class="social-title">GitHub</div>
+      <div class="social-desc">Check out my code repositories and projects.</div>
+    </div>
+    <div class="social-card" tabindex="0" role="link" aria-label="LinkedIn profile" data-url="https://linkedin.com/in/AkmalAditya">
+      <div class="social-icon">🔗</div>
+      <div class="social-title">My Project</div>
+      <div class="social-desc">Project is under construction. Coming soon yaa😘</div>
+    </div>
+  </section>
+  <section class="photo-gallery" id="gallery">
+  <div class="photo-item"><img src="foto1.jpg" alt="Foto 1"></div>
+  <div class="photo-item"><img src="foto2.jpg" alt="Foto 2"></div>
+  <div class="photo-item"><img src="foto3.jpg" alt="Foto 3"></div>
+  <div class="photo-item"><img src="foto4.jpg" alt="Foto 4"></div>
+</section>
+  <section id="contact" style="text-align:center; margin-top:4rem; font-weight:300; color:#ddd;">
+    <p>📧 Email: <a href="mailto:akmal.maula@outlook.co.id" style="color:#ffd166; text-decoration:none;">akmal.maula@outlook.co.id</a></p>
+    <p>Code smart. Build clean. I’m all in on web dev.</p>
+  </section>
+
+  <!-- Modal -->
+  <div id="customModal" style="
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  " role="dialog" aria-modal="true">
+    <div style="
+      background: white;
+      color: #222;
+      padding: 2rem;
+      max-width: 300px;
+      width: 80%;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+    ">
+      <p style="font-size: 1.1rem;">Makasih yaa uda kesinii😊</p>
+      <button onclick="closeModal()" style="
+        margin-top: 1.5rem;
+        padding: 0.5rem 1.5rem;
+        border: none;
+        background: #ffd166;
+        color: #222;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+      ">Tutup</button>
+    </div>
+  </div>
+</main>
+<footer>
+  &copy; 2025 Akmal Maula Aditya. All rights reserved.
+</footer>
+
+<!-- Emoji containers -->
+<div class="emoji-container left" id="emojiContainerLeft"></div>
+<div class="emoji-container right" id="emojiContainerRight"></div>
+
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if (window.scrollY > 20) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // Social card interaksi
+  const cards = document.querySelectorAll('.social-card');
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.add('pressed');
+      setTimeout(() => {
+        card.classList.remove('pressed');
+        window.open(card.dataset.url, '_blank', 'noopener');
+      }, 200);
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  // Emoji saat tombol ditekan
+  const emojis = ["😊", "🎂", "🎉"];
+  const emojisLeftContainer = document.getElementById('emojiContainerLeft');
+  const emojisRightContainer = document.getElementById('emojiContainerRight');
+
+  function createEmoji(container, emoji) {
+    const span = document.createElement('span');
+    span.className = 'emoji';
+    span.textContent = emoji;
+    const containerWidth = container.clientWidth;
+    const randomLeft = Math.random() * (containerWidth - 30);
+    span.style.left = `${randomLeft}px`;
+    container.appendChild(span);
+    span.addEventListener('animationend', () => {
+      container.removeChild(span);
+    });
+  }
+
+  function launchEmojis() {
+    for(let i = 0; i < 4; i++) {
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      setTimeout(() => createEmoji(emojisLeftContainer, emoji), i * 250);
+    }
+    for(let i = 0; i < 4; i++) {
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      setTimeout(() => createEmoji(emojisRightContainer, emoji), i * 250);
+    }
+  }
+
+  document.getElementById('sayHiBtn').addEventListener('click', () => {
+    launchEmojis();
+    openModal();
+  });
+
+  function openModal() {
+    const modal = document.getElementById('customModal');
+    modal.classList.add('show');
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('customModal');
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
+
+  // Create stars
+    const container = document.getElementById('space-container');
+    const starCount = 500;
+    const cometCount = 5;
+
+    // Create regular stars
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+            
+            // Random positioning
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+            
+            // Random size (0.5px to 3px)
+        const size = Math.random() * 2 + 0.5;
+            
+            // Random animation duration (2s to 5s)
+        const duration = Math.random() * 3 + 2;
+            
+            // Random animation delay (0s to 5s)
+        const delay = Math.random() * 5;
+            
+        star.style.left = `${left}%`;
+        star.style.top = `${top}%`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.setProperty('--duration', `${duration}s`);
+        star.style.setProperty('--delay', `${delay}s`);
+            
+            // Brighter stars for different sizes
+        if (size > 2) {
+            star.style.boxShadow = '0 0 5px white';
+        }
+            
+            container.appendChild(star);
+        }
+
+        // Create shooting stars (comets)
+    for (let i = 0; i < cometCount; i++) {
+        const comet = document.createElement('div');
+        comet.className = 'comet';
+            
+            // Position from random edge
+        const startLeft = Math.random() * 50 + 25;
+        const startTop = Math.random() * 50 + 25;
+            
+            // Random angle (20° to 70° for diagonal movement)
+        const angle = Math.random() * 50 + 20;
+            
+            // Random distance (1000px to 2000px)
+        const distance = Math.random() * 1000 + 1000;
+            
+            // Random speed (5s to 10s)
+        const speed = Math.random() * 5 + 5;
+            
+            // Random delay (0s to 15s)
+        const delay = Math.random() * 15;
+            
+        comet.style.left = `${startLeft}%`;
+        comet.style.top = `${startTop}%`;
+        comet.style.setProperty('--angle', `${angle}deg`);
+        comet.style.setProperty('--distance', `${distance}px`);
+        comet.style.setProperty('--speed', `${speed}s`);
+        comet.style.setProperty('--delay', `${delay}s`);
+            
+        container.appendChild(comet);
+    }
+
+        // Galaxy effect (distant star clusters)
+    const galaxyCount = 3;
+    for (let i = 0; i < galaxyCount; i++) {
+        const galaxy = document.createElement('div');
+        galaxy.style.position = 'absolute';
+            
+            // Random positioning
+        const left = Math.random() * 100;
+        const top = Math.random() * 100;
+            
+        galaxy.style.left = `${left}%`;
+        galaxy.style.top = `${top}%`;
+        galaxy.style.width = '200px';
+        galaxy.style.height = '200px';
+        galaxy.style.borderRadius = '50%';
+        galaxy.style.background = 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 70%)';
+        galaxy.style.filter = 'blur(2px)';
+            
+        container.appendChild(galaxy);
+    }      
+    // Fungsi untuk memeriksa apakah elemen terlihat di viewport
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+// Tambahkan event listener untuk scroll
+window.addEventListener('scroll', () => {
+    cards.forEach(card => {
+        if (isElementInViewport(card)) {
+            card.classList.add('visible'); // Tambahkan kelas visible saat elemen terlihat
+        }
+    });
+});
+// Panggil fungsi untuk memeriksa elemen saat halaman dimuat
+window.addEventListener('load', () => {
+    cards.forEach(card => {
+        if (isElementInViewport(card)) {
+            card.classList.add('visible'); // Tambahkan kelas visible jika elemen sudah terlihat saat dimuat
+        }
+    });
+});
+</script>
+</body>
+</html>
